@@ -73,9 +73,6 @@ This helps communities and municipalities **take quick, data-driven action** to 
 """)
 
 class WaterFeatureEngineer(BaseEstimator, TransformerMixin):
-    pipeline.fit(X_train, y_train)
-    joblib.dump(pipeline, 'updated_model.pkl')
-    
     def __init__ (self):
         pass
     def fit(self, X, y=None):
