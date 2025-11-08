@@ -91,7 +91,7 @@ def load_model():
         current_dir = Path(__file__).parent
 
         # Use correct relative path
-        model_path = current_dir / "rf_pipeline.pkl"
+        model_path = current_dir / "Random_pipeline.pkl"
 
         # Debug output
         st.write(f"Loading model from: {model_path}")
