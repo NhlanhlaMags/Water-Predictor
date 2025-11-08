@@ -8,6 +8,7 @@ class WaterFeatureEngineer(BaseEstimator, TransformerMixin):
 
     def transform(self, X):
         X = X.copy()
+        original_columns = X.columns.tolist() # Store original columns
 
         # Log transformations for skewed features (applied to original columns before creating new ones)
         skewed_cols = ['Solids', 'Conductivity', 'Trihalomethanes']
@@ -119,7 +120,7 @@ class WaterFeatureEngineer(BaseEstimator, TransformerMixin):
         # This needs careful consideration. If applying to engineered features,
         # do it *after* they are created.
         # Based on the original notebook's highly_skewed_features list, some were original, some engineered.
-        # Let's re-evaluate which ones should be log transformed *after* creation.
+        # Let's re-evaluate which ones should be log transformed *after* the full set is ready.
         # For simplicity and to match the original notebook's output where possible,
         # I will apply log1p to the list of features identified as highly skewed *in the original notebook*,
         # but do this *after* all features are created.
@@ -139,6 +140,15 @@ class WaterFeatureEngineer(BaseEstimator, TransformerMixin):
             if col in X.columns:
                  # Add a small constant (1) to handle potential zero values before logging
                  X[col] = np.log1p(X[col])
+
+        # Ensure consistent column order by sorting column names
+        # This is crucial for consistent behavior with subsequent pipeline steps
+        transformed_columns = X.columns.tolist()
+        # Keep original columns in their original order, add new columns sorted
+        new_columns = [col for col in transformed_columns if col not in original_columns]
+        new_columns.sort()
+        final_column_order = original_columns + new_columns
+        X = X[final_column_order]
 
 
         return X
