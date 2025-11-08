@@ -3,8 +3,6 @@ import numpy as np
 import pandas as pd
 
 class WaterFeatureEngineer(BaseEstimator, TransformerMixin):
-    pipeline.fit(X_train, y_train)
-    joblib.dump(pipeline, 'updated_model.pkl')
     def fit(self, X, y=None):
         return self
 
